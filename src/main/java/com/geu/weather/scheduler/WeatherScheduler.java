@@ -1,5 +1,6 @@
 package com.geu.weather.scheduler;
 
+import com.geu.weather.model.WeatherResponse;
 import com.geu.weather.services.WeatherService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,23 +24,20 @@ public class WeatherScheduler {
     }
 
     @Scheduled(fixedDelay = 10000)
-    public String addPerson() {
-        log.debug("SenderBaseUrl :::::::::::::::::::" + openWeatherMapUrl);
-        try {
-            /*RestTemplate restTemplate = new RestTemplate();
-            String result = restTemplate.getForObject(openWeatherMapUrl, String.class);*/
+    public void addPerson() {
+        log.info("openWeatherMapUrl :::::::::::::::::::" + openWeatherMapUrl);
             RestTemplate restTemplate = new RestTemplate();
 
             HttpHeaders headers = new HttpHeaders();
             headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
             HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
 
-            ResponseEntity<String> result = restTemplate.exchange(openWeatherMapUrl, HttpMethod.GET, entity, String.class);
+            ResponseEntity<WeatherResponse> result = restTemplate.exchange(
+                    openWeatherMapUrl,
+                    HttpMethod.GET,
+                    entity,
+                    WeatherResponse.class);
 
-            log.debug("Result :: {}", result);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "sucess";
+            log.info("Result :: {}", result.getBody());
     }
 }
