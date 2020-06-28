@@ -7,5 +7,5 @@ public interface Messaging {
     String WEATHER = "weather";
 
     @Output(WEATHER)
-    MessageChannel getMessageChannel();
+    MessageChannel publishWeatherChannel();
 }

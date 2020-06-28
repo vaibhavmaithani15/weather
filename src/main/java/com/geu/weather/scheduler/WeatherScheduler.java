@@ -47,6 +47,6 @@ public class WeatherScheduler {
             log.info("Result :: {}", result.getBody());
 
         Message<WeatherResponse> message = MessageBuilder.withPayload(result.getBody()).build();
-        this.messaging.getMessageChannel().send(message);
+        this.messaging.publishWeatherChannel().send(message);
     }
 }
